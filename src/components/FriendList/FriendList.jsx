@@ -1,8 +1,10 @@
 import styles from "./FriendList.module.css";
+import FriendListItem from "./FriendListItem.js";
+import PropTypes from "prop-types";
 
-function friendOnline(status) {
+function getStatusColor(status) {
   if (status) {
-    return "#2ECC71";
+    return "#313834";
   } else {
     return "#E74C3C";
   }
@@ -10,25 +12,14 @@ function friendOnline(status) {
 
 const FriendList = ({ friends }) => {
   return (
-    <div class={styles.friends}>
-      <ul class={styles.friendlist}>
+    <div className={styles.friends}>
+      <ul className={styles.friendlist}>
         {friends.map((friend) => (
-          <li class={styles.item} key={friend.id}>
-            <span
-              class={styles.status}
-              style={{ color: friendOnline(friend.isOnline) }}
-            >
-              {" "}
-              ●
-            </span>
-            <img
-              class={styles.avatar}
-              src={friend.avatar}
-              alt={friend.name}
-              width="48"
-            />
-            <p class={styles.name}>{friend.name}</p>
-          </li>
+          <FriendListItem
+            key={friend.id}
+            getStatusColor={getStatusColor}
+            {...friend}
+          />
         ))}
       </ul>
     </div>
@@ -36,3 +27,7 @@ const FriendList = ({ friends }) => {
 };
 
 export default FriendList;
+
+FriendList.propTypes = {
+  friends: PropTypes.arrayOf(PropTypes.object),
+};
